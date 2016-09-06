@@ -36,7 +36,14 @@ var translateDayToNumber = function(dayString) {
         return false;
     }
   }
-}
+};
+
+var formatResponse = function(menu) {
+  return {
+    response_type: "in_channel",
+    text: menu
+  }
+};
 
 app.get('/', function(req, res) {
 
@@ -47,7 +54,18 @@ app.get('/', function(req, res) {
   }
   else {
     HwhLunch(day).then(function(menu) {
-      res.send(menu);
+
+      // If there's a response_url, send the response
+      // there, otherwise send it via the usual means.
+      if (req.query.response_url) {
+        request.post({
+          url: req.query.response_url,
+          form: formatResponse(menu)
+        })
+      }
+      else {
+        res.send(formatResponse(menu));
+      }
     });
   }
 });
