@@ -61,7 +61,7 @@ app.get('/', function(req, res) {
         res.sendStatus(200);
         request.post({
           url: req.query.response_url,
-          form: formatResponse(menu)
+          json: formatResponse(menu)
         })
       }
       else {
