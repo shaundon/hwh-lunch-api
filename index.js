@@ -58,7 +58,7 @@ app.get('/', function(req, res) {
       // If there's a response_url, send the response
       // there, otherwise send it via the usual means.
       if (req.query.response_url) {
-        res.status(200);
+        res.sendStatus(200);
         request.post({
           url: req.query.response_url,
           form: formatResponse(menu)
